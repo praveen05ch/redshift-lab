@@ -1,0 +1,19 @@
+ItemID,ItemNum,Week,CustomerNumber,CustomerName,OrderedQty,OnTimeDelivery,BacklogQty,ExpectedDate
+25125,AS35013,4/27/2020,300000180483307    ,Juno Institute of Technology,250,0.15,213,4/27/2020
+25114,SR41101,4/27/2020,300000076330599    ,Environmental Protection Agency,400,0.2,320,5/4/2020
+25120,AS89035,4/27/2020,300000180483334    ,Champions R Us Fitness Store,200,0.12,176,5/11/2020
+25119,AS65003,4/27/2020,300000180538291    ,InnerWorkings Gym,250,0.1,225,5/18/2020
+25131,SR41110,4/27/2020,300000079084613    ,Department of Homeland Security,200,0.05,190,5/25/2020
+25138,SR41101,4/20/2020,300000180483282    ,Mayhew University School of Law,900,0.65,315,5/18/2020
+25119,AS65003,4/13/2020,300000180483227    ,Cantor Technical Institute,800,0.7,240,5/18/2020
+25124,AS35007,4/6/2020,300000079084664    ,National Institute of Health,700,0.8,140,5/25/2020
+25127,AS65003,3/30/2020,300000094333191    ,National Cancer Institute,500,0.85,75,5/7/2020
+25141,AS35013,3/23/2020,300000076330547    ,Department of Public Safety,350,0.88,42,5/3/1900
+25133,AS35013,3/16/2020,300000175182953    ,Grawitacja SA,250,0.86,35,4/27/2020
+25117,AS35013,3/9/2020,300000115415182    ,French Motor Assistance,200,0.9,20,4/27/2020
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
