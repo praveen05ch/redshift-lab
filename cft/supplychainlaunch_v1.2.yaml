@@ -497,7 +497,7 @@ Resources:
       Role: !GetAtt 'LambdaExecutionRole.Arn'
       FunctionName: !Join ['-', ['copy_scripts', !Ref 'AWS::StackName']]
       MemorySize: 2048
-      Runtime: python2.7
+      Runtime: python3.8.3
       Timeout: 900
       Handler: index.handler
       Code:
@@ -559,7 +559,8 @@ Resources:
                         'body': json.dumps(message)
                     }
                     
-               s3 = boto3.client('s3') 
+               s3 = boto3.client('s3')
+
                #copy sql files with iam role and bucket replace
                prefix = SCRIPT_SOURCE_FOLDER + '/SQL'
                sqlfiles = s3.list_objects_v2(Bucket=SCRIPT_SOURCE_BUCKET, Prefix = prefix)['Contents']
@@ -576,7 +577,17 @@ Resources:
                    key = file['Key']
                    putkey = 'python/' + key.split('/')[-1]
                    response = s3.copy_object(Bucket=DEST_BUCKET,Key=putkey, CopySource={'Bucket': SCRIPT_SOURCE_BUCKET,'Key':key})
-                   
+
+               #copy csv files with iam role and bucket replace
+               prefix = SCRIPT_SOURCE_FOLDER + '/SQL'
+               sqlfiles = s3.list_objects_v2(Bucket=SCRIPT_SOURCE_BUCKET, Prefix = prefix)['Contents']
+               for file in sqlfiles[1:]:
+                   key = file['Key']
+                   obj = s3.get_object(Bucket=SCRIPT_SOURCE_BUCKET, Key=key)['Body'].read().decode('utf-8').replace('rolearn', ROLE_ARN).replace('bucket', UNLOAD_DEST_BUCKET)
+                   putkey = 'sql/' + key.split('/')[-1]
+                   response = s3.put_object(Bucket=UNLOAD_DEST_BUCKET, Key=putkey, Body=obj)
+
+
                #update Secrets Manager secret with host and port
                sm = boto3.client('secretsmanager')
                sec = json.loads(sm.get_secret_value(SecretId=SECRET)['SecretString'])
@@ -680,9 +691,9 @@ Resources:
         Fn::Sub:
           - |
               {
-                "StartAt": "ReadFilterJob",
+                "StartAt": "LoadDateJob",
                 "States": {
-                  "ReadFilterJob": {
+                  "LoadDateJob": {
                     "Type": "Task",
                     "Resource": "arn:aws:states:::glue:startJobRun.sync",
                     "Parameters":{
@@ -691,8 +702,8 @@ Resources:
                         "--db":"supplychain", 
                         "--db_creds":"supplychainsecret",
                         "--bucket": "${ScriptBucket_Sub}",
-                        "--file": "sql/copy_into_staging.sql",
-                        "--parameters": "s3://${DataBucket_Sub}/csv/,${RedshiftRoleArn},${AWS::Region}"
+                        "--file": "sql/copy_into_salesorders.sql",
+                        "--parameters": "s3://${DataBucket_Sub}/csv/SalesOrders.csv,${RedshiftRoleArn},${AWS::Region}"
                       }
                     },
                       "Next": "ReportJob",
