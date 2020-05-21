@@ -2,7 +2,7 @@ SET query_group TO 'ingest';
 
 CREATE TEMPORARY TABLE customer_tmp (LIKE supplychain.customer);
 
-COPY customer_tmp FROM '{0}' IAM_ROLE '{1}' csv ignoreheader 1 region '{2}' gzip;
+COPY customer_tmp FROM '{0}' IAM_ROLE '{1}' csv ignoreheader 1 region '{2}';
 
 INSERT INTO supplychain.customer SELECT * FROM customer_tmp;
 

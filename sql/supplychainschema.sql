@@ -6,7 +6,7 @@ CREATE EXTERNAL SCHEMA spectrum_schema FROM DATA CATALOG database 'default' regi
 
 CREATE TABLE supplychain.date (
 	CalendarDate	date,
-	WeekName		varchar(2),
+	WeekName		varchar(3),
 	WeekStartDate	date,
 	WeekEndDate		date,
 	Month			varchar(3),
